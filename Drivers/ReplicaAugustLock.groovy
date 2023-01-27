@@ -26,22 +26,7 @@ metadata
        
         capability "ContactSensor"
 
-        /**
-        capability "healthCheck"
-        attribute "scanCodes", "string" //capability "lockCodes" in SmartThings
-        attribute "minCodeLength", "number" //capability "lockCodes" in SmartThings
-        attribute "maxCodeLength", "number" //capability "lockCodes" in SmartThings
-        attribute "codeReport", "number" //capability "lockCodes" in SmartThings
-        */
         attribute "healthStatus", "enum", ["offline", "online"]
-        /**
-
-        command "updateCodes", [[name: "codes*", type: "JSON_OBJECT", description: """Update to these codes as {"1":"Update","2":"Codes"}"""]] //capability "lockCodes" in SmartThings
-        command "unlockWithTimeout" //capability "lockCodes" in SmartThings
-        command "requestCode", [[name: "codeSlot*", type: "NUMBER", description: "Code Slot Number"]] //capability "lockCodes" in SmartThings
-        command "nameSlot", [[name: "codeSlot*", type: "NUMBER", description: "Code Slot Number"],[name: "codeName*", type: "STRING", description: "Name of this Slot"]] //capability "lockCodes" in SmartThings
-        command "reloadAllCodes" //capability "lockCodes" in SmartThings
-        */
     }
     preferences {
         input(name:"deviceInfoDisable", type: "bool", title: "Disable Info logging:", defaultValue: false)
@@ -142,12 +127,7 @@ def unlock() {
 void refresh() {
     sendCommand("refresh")
 }
-/*
-String getReplicaRules() {
-    return """{"version":1, "components":[{"trigger":{"name":"unlock","label":"command: unlock()","type":"command"},"command":{"name":"unlock","type":"command","capability":"lock",\
-"label":"command: lock:unlock()"},"type":"hubitatTrigger"},{"trigger":{"name":"lock","label":"command: lock()","type":"command"},"command":{"name":"lock","type":"command","capability":"lock","label":"command: lock:lock()"},"type":"hubitatTrigger"}]}"""
-}
-*/
+
 String getReplicaRules() {
     return """{"version":1,"components":[{"trigger":{"type":"attribute","properties":{"value":{"title":"ActivityState","type":"string"}},"additionalProperties":false,"required":["value"],"capability":"accelerationSensor","attribute":"acceleration","label":"attribute: acceleration.*"},\
 	"command":{"name":"setAccelerationValue","label":"command: setAccelerationValue(acceleration*)","type":"command","parameters":[{"name":"acceleration*","type":"ENUM"}]},"type":"smartTrigger"},{"trigger":{"title":"IntegerPercent","type":"attribute",\
@@ -162,11 +142,6 @@ String getReplicaRules() {
 	"timeout":{"pattern":"removed","title":"Iso8601Date","type":"string"}}}},"additionalProperties":false,"required":["value"],"capability":"lockCodes","attribute":"lock","label":"attribute: lock.*"},"command":{"name":"setLockValue","label":"command: setLockValue(lock*)","type":"command","parameters":[{"name":"lock*","type":"ENUM"}]},"type":"smartTrigger"},\
 	{"trigger":{"name":"unlock","label":"command: unlock()","type":"command"},"command":{"name":"unlock","type":"command","capability":"lock","label":"command: lock:unlock()"},"type":"hubitatTrigger"},\
 	{"trigger":{"name":"lock","label":"command: lock()","type":"command"},"command":{"name":"lock","type":"command","capability":"lock","label":"command: lock:lock()"},"type":"hubitatTrigger"}]}"""
-
-/*
-{"trigger":{"type":"attribute","properties":{"value":{"title":"HealthState","type":"string"}},"additionalProperties":false,"required":["value"],"capability":"healthCheck","attribute":"healthStatus","label":"attribute: healthStatus.*"},"command":{"name":"setHealthStatusValue","label":"command: setHealthStatusValue(healthStatus*)","type":"command","parameters":[{"name":"healthStatus*","type":"ENUM"}]},"type":"smartTrigger","mute":true}
-{"trigger":{"title":"IntegerPercent","type":"attribute","properties":{"value":{"type":"integer","minimum":0,"maximum":100},"unit":{"type":"string","enum":["%"],"default":"%"}},"additionalProperties":false,"required":["value"],"capability":"battery","attribute":"battery","label":"attribute: battery.*"},"command":{"name":"setBatteryValue","label":"command: setBatteryValue(battery*)","type":"command","parameters":[{"name":"battery*","type":"NUMBER"}]},"type":"smartTrigger","mute":true}
-*/
 }
 
 private logInfo(msg)  { if(settings?.deviceInfoDisable != true) { log.info  "${msg}" } }
