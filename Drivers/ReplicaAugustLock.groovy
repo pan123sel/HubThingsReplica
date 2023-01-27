@@ -16,7 +16,7 @@ public static String version() {return "1.3.0"}
 
 metadata 
 {
-    definition(name: "Replica August Lock", namespace: "replica", author: "pan123sel", importUrl:"")
+    definition(name: "Replica August Lock", namespace: "replica", author: "pan123sel", importUrl:"https://raw.githubusercontent.com/pan123sel/HubThingsReplica/main/Drivers/ReplicaAugustLock.groovy")
     {
         capability "Actuator"
         capability "Battery"
